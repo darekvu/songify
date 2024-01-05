@@ -1,4 +1,4 @@
-package com.songify.song.exception;
+package com.songify.song.controller.exception;
 
 import org.springframework.http.HttpStatus;
 

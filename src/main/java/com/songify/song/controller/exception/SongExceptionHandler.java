@@ -1,4 +1,4 @@
-package com.songify.song.exception;
+package com.songify.song.controller.exception;
 
 import com.songify.song.controller.SongRestController;
 import lombok.extern.log4j.Log4j2;

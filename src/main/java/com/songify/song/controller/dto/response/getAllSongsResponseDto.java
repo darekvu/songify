@@ -1,6 +1,6 @@
-package com.songify.song.dto.response;
+package com.songify.song.controller.dto.response;
 
-import com.songify.song.controller.Song;
+import com.songify.song.model.Song;
 
 import java.util.Map;
 

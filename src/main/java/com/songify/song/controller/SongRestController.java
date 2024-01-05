@@ -1,10 +1,11 @@
 package com.songify.song.controller;
 
-import com.songify.song.dto.request.PartiallyUpdateRequestDto;
-import com.songify.song.dto.request.SongRequestDto;
-import com.songify.song.dto.request.UpdateSongRequestDto;
-import com.songify.song.dto.response.*;
-import com.songify.song.exception.SongNotFoundException;
+import com.songify.song.controller.dto.request.PartiallyUpdateRequestDto;
+import com.songify.song.controller.dto.request.SongRequestDto;
+import com.songify.song.controller.dto.request.UpdateSongRequestDto;
+import com.songify.song.controller.dto.response.*;
+import com.songify.song.controller.exception.SongNotFoundException;
+import com.songify.song.model.Song;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;

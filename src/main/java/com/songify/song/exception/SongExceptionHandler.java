@@ -1,4 +1,4 @@
-package com.songify.song.error;
+package com.songify.song.exception;
 
 import com.songify.song.controller.SongRestController;
 import lombok.extern.log4j.Log4j2;
@@ -11,12 +11,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice(assignableTypes = SongRestController.class)
 @Log4j2
-public class SongErrorHandler {
+public class SongExceptionHandler {
     @ExceptionHandler(SongNotFoundException.class)
     @ResponseBody
     @ResponseStatus(NOT_FOUND)
-    public ErrorDeleteSongResponseDto handleException(SongNotFoundException exception){
+    public ExceptionSongResponseDto handleException(SongNotFoundException exception){
         log.warn("error while deleting song");
-        return new ErrorDeleteSongResponseDto(exception.getMessage(), NOT_FOUND);
+        return new ExceptionSongResponseDto(exception.getMessage(), NOT_FOUND);
     }
 }

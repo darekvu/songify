@@ -1,4 +1,6 @@
 package com.songify.song.dto.response;
 
-public record SingleSongResponseDto(String songName) {
+import com.songify.song.controller.Song;
+
+public record SingleSongResponseDto(Song songName) {
 }

@@ -1,9 +1,11 @@
 package com.songify.song.controller;
 
-import com.songify.song.dto.DeleteSongResponseDto;
-import com.songify.song.dto.SingleSongResponseDto;
-import com.songify.song.dto.SongRequestDto;
-import com.songify.song.dto.SongsResponseDto;
+import com.songify.song.dto.request.SongRequestDto;
+import com.songify.song.dto.request.UpdateRequestDto;
+import com.songify.song.dto.response.DeleteSongResponseDto;
+import com.songify.song.dto.response.SingleSongResponseDto;
+import com.songify.song.dto.response.SongsResponseDto;
+import com.songify.song.dto.response.UpdateSongResponseDto;
 import com.songify.song.exception.SongNotFoundException;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
@@ -73,6 +75,18 @@ public class SongRestController {
         database.remove(songId);
         DeleteSongResponseDto response = new DeleteSongResponseDto("You deleted Song: " + songName + " with id: " + songId, HttpStatus.OK);
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/songs/{songId}")
+    public ResponseEntity<UpdateSongResponseDto> updateSong(@PathVariable Integer songId, @RequestBody UpdateRequestDto request) {
+        if (!database.containsKey(songId)) {
+            throw new SongNotFoundException("Song with id" + songId + "Not found");
+        }
+        String newSongName = request.songName();
+        String oldSongName = database.put(songId, newSongName);
+        log.info("Updated Song With id: " + songId + " with song name " + oldSongName + "to -->: " + newSongName);
+        return ResponseEntity.ok(new UpdateSongResponseDto(newSongName));
+
     }
 
 

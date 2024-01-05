@@ -1,4 +1,4 @@
-package com.songify.song.dto;
+package com.songify.song.dto.response;
 
 import java.util.Map;
 

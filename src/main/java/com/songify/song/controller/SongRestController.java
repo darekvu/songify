@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Log4j2
+@RequestMapping("/songs")
 public class SongRestController {
 
     Map<Integer, Song> database = new HashMap<>(
@@ -28,7 +29,7 @@ public class SongRestController {
             )
     );
 
-    @GetMapping("/songs")
+    @GetMapping("/")
     public ResponseEntity<SongsResponseDto> getAllSongs(@RequestParam(required = false) Integer limit) {
         if (limit != null) {
             Map<Integer, Song> songs = database.entrySet()
@@ -42,7 +43,7 @@ public class SongRestController {
         return ResponseEntity.ok(songResponseDto);
     }
 
-    @GetMapping("/songs/{songId}")
+    @GetMapping("/{songId}")
     public ResponseEntity<SingleSongResponseDto> getSongById(@PathVariable Integer songId, @RequestHeader(required = false) String requestId) {
         log.info(requestId);
         Song song = database.get(songId);
@@ -54,14 +55,14 @@ public class SongRestController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/songs")
+    @PostMapping("/")
     public ResponseEntity<SingleSongResponseDto> postSong(@RequestBody @Valid SongRequestDto request) {
         Song newSong = new Song(request.songName(), request.artist());
         database.put(database.size() + 1, newSong);
         return ResponseEntity.ok(new SingleSongResponseDto(newSong));
     }
 
-    @DeleteMapping("/songs/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<DeleteSongResponseDto> deleteSong(@PathVariable(name = "id") Integer songId) {
         if (!database.containsKey(songId)) {
 //            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DeleteSongResponseDto("Song with this id not found", HttpStatus.NOT_FOUND));
@@ -75,7 +76,7 @@ public class SongRestController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/songs/{songId}")
+    @PutMapping("/{songId}")
     public ResponseEntity<UpdateSongResponseDto> updateSong(@PathVariable Integer songId, @RequestBody UpdateSongRequestDto request) {
         if (!database.containsKey(songId)) {
             throw new SongNotFoundException("Song with id" + songId + "Not found");
@@ -89,7 +90,7 @@ public class SongRestController {
         return ResponseEntity.ok(new UpdateSongResponseDto(newSong.name(), newSong.artist()));
     }
 
-    @PatchMapping("/songs/{songId}")
+    @PatchMapping("/{songId}")
     public ResponseEntity<PartiallyUpdatedSongResponseDto> partiallyUpdateSong(
             @PathVariable Integer songId,
             @RequestBody PartiallyUpdateRequestDto request

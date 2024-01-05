@@ -1,11 +1,9 @@
 package com.songify.song.controller;
 
+import com.songify.song.dto.request.PartiallyUpdateRequestDto;
 import com.songify.song.dto.request.SongRequestDto;
-import com.songify.song.dto.request.UpdateRequestDto;
-import com.songify.song.dto.response.DeleteSongResponseDto;
-import com.songify.song.dto.response.SingleSongResponseDto;
-import com.songify.song.dto.response.SongsResponseDto;
-import com.songify.song.dto.response.UpdateSongResponseDto;
+import com.songify.song.dto.request.UpdateSongRequestDto;
+import com.songify.song.dto.response.*;
 import com.songify.song.exception.SongNotFoundException;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
@@ -78,7 +76,7 @@ public class SongRestController {
     }
 
     @PutMapping("/songs/{songId}")
-    public ResponseEntity<UpdateSongResponseDto> updateSong(@PathVariable Integer songId, @RequestBody UpdateRequestDto request) {
+    public ResponseEntity<UpdateSongResponseDto> updateSong(@PathVariable Integer songId, @RequestBody UpdateSongRequestDto request) {
         if (!database.containsKey(songId)) {
             throw new SongNotFoundException("Song with id" + songId + "Not found");
         }
@@ -87,9 +85,37 @@ public class SongRestController {
         Song newSong = new Song(newSongName, newArtist);
         Song oldSong = database.put(songId, newSong);
 
-        log.info("Updated Song With id: " + songId + " with song name " + oldSong.name() + "to -->: " + newSongName + "and artist: "+oldSong.artist()+" "+newArtist);
-        return ResponseEntity.ok(new UpdateSongResponseDto(newSong.name(),newSong.artist()));
+        log.info("Updated Song With id: " + songId + " with song name " + oldSong.name() + "to -->: " + newSongName + "and artist: " + oldSong.artist() + " " + newArtist);
+        return ResponseEntity.ok(new UpdateSongResponseDto(newSong.name(), newSong.artist()));
+    }
 
+    @PatchMapping("/songs/{songId}")
+    public ResponseEntity<PartiallyUpdatedSongResponseDto> partiallyUpdateSong(
+            @PathVariable Integer songId,
+            @RequestBody PartiallyUpdateRequestDto request
+    ) {
+        if (!database.containsKey(songId)) {
+            throw new SongNotFoundException("Song with id" + songId + "Not found");
+        }
+        Song oldSong = database.get(songId);
+        Song.SongBuilder builder = Song.builder();
+        if (request.songName() != null) {
+            builder.name(request.songName());
+            log.info("partially updated song name");
+        } else {
+            builder.name(oldSong.name());
+        }
+
+        if (request.artist() != null) {
+            builder.artist(request.artist());
+            log.info("partially updated artist");
+        } else {
+            builder.artist(oldSong.artist());
+        }
+        Song updatedSong = builder.build();
+        database.put(songId, updatedSong);
+        log.info("Partially updated song!");
+        return ResponseEntity.ok(new PartiallyUpdatedSongResponseDto(updatedSong));
     }
 
 

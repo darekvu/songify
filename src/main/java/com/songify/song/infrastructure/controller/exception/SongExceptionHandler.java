@@ -1,6 +1,6 @@
-package com.songify.song.controller.exception;
+package com.songify.song.infrastructure.controller.exception;
 
-import com.songify.song.controller.SongRestController;
+import com.songify.song.infrastructure.controller.SongRestController;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

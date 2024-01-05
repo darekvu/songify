@@ -1,11 +1,12 @@
-package com.songify.song.controller;
+package com.songify.song.infrastructure.controller;
 
-import com.songify.song.controller.dto.request.PartiallyUpdateRequestDto;
-import com.songify.song.controller.dto.request.SongRequestDto;
-import com.songify.song.controller.dto.request.UpdateSongRequestDto;
-import com.songify.song.controller.dto.response.*;
-import com.songify.song.controller.exception.SongNotFoundException;
-import com.songify.song.model.Song;
+import com.songify.song.domain.service.SongAdder;
+import com.songify.song.infrastructure.controller.dto.request.PartiallyUpdateRequestDto;
+import com.songify.song.infrastructure.controller.dto.request.SongRequestDto;
+import com.songify.song.infrastructure.controller.dto.request.UpdateSongRequestDto;
+import com.songify.song.infrastructure.controller.dto.response.*;
+import com.songify.song.infrastructure.controller.exception.SongNotFoundException;
+import com.songify.song.domain.model.Song;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,11 @@ public class SongRestController {
                     4, new Song("MockingBird", "Eminem")
             )
     );
+     private final SongAdder songAdder;
+
+    public SongRestController(SongAdder songAdder) {
+        this.songAdder = songAdder;
+    }
 
     @GetMapping("/")
     public ResponseEntity<getAllSongsResponseDto> getAllSongs(@RequestParam(required = false) Integer limit) {
@@ -59,7 +65,7 @@ public class SongRestController {
     @PostMapping("/")
     public ResponseEntity<createSongResponseDto> createSongRequestDto(@RequestBody @Valid SongRequestDto request) {
         Song newSong = SongMapper.mapFromCreateSongRequestDtoToSong(request);
-        database.put(database.size() + 1, newSong);
+        songAdder.addSong(newSong);
         createSongResponseDto body = SongMapper.mapFromSongToCreateSongResponseDto(newSong);
         return ResponseEntity.ok(body);
     }

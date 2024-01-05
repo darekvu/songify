@@ -1,8 +1,8 @@
-package com.songify.song.controller;
+package com.songify.song.infrastructure.controller;
 
-import com.songify.song.controller.dto.request.SongRequestDto;
-import com.songify.song.controller.dto.response.createSongResponseDto;
-import com.songify.song.model.Song;
+import com.songify.song.infrastructure.controller.dto.request.SongRequestDto;
+import com.songify.song.infrastructure.controller.dto.response.createSongResponseDto;
+import com.songify.song.domain.model.Song;
 
 public class SongMapper {
     public static Song mapFromCreateSongRequestDtoToSong(SongRequestDto dto) {

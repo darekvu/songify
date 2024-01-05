@@ -1,4 +1,4 @@
-package com.songify.song.model;
+package com.songify.song.domain.model;
 
 import lombok.Builder;
 

@@ -4,6 +4,6 @@ import com.songify.song.controller.Song;
 
 import java.util.Map;
 
-public record SongResponseDto(Map<Integer, Song> songs) {
+public record getAllSongsResponseDto(Map<Integer, Song> songs) {
 
 }

@@ -30,16 +30,16 @@ public class SongRestController {
     );
 
     @GetMapping("/")
-    public ResponseEntity<SongResponseDto> getAllSongs(@RequestParam(required = false) Integer limit) {
+    public ResponseEntity<getAllSongsResponseDto> getAllSongs(@RequestParam(required = false) Integer limit) {
         if (limit != null) {
             Map<Integer, Song> songs = database.entrySet()
                     .stream()
                     .limit(limit)
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            SongResponseDto response = new SongResponseDto(songs);
+            getAllSongsResponseDto response = new getAllSongsResponseDto(songs);
             return ResponseEntity.ok(response);
         }
-        SongResponseDto songResponseDto = new SongResponseDto(database);
+        getAllSongsResponseDto songResponseDto = new getAllSongsResponseDto(database);
         return ResponseEntity.ok(songResponseDto);
     }
 
@@ -57,10 +57,12 @@ public class SongRestController {
 
     @PostMapping("/")
     public ResponseEntity<createSongResponseDto> createSongRequestDto(@RequestBody @Valid SongRequestDto request) {
-        Song newSong = new Song(request.songName(), request.artist());
+        Song newSong = SongMapper.mapFromCreateSongRequestDtoToSong(request);
         database.put(database.size() + 1, newSong);
-        return ResponseEntity.ok(new createSongResponseDto(newSong));
+        createSongResponseDto body = SongMapper.mapFromSongToCreateSongResponseDto(newSong);
+        return ResponseEntity.ok(body);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<DeleteSongResponseDto> deleteSong(@PathVariable(name = "id") Integer songId) {

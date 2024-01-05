@@ -30,36 +30,36 @@ public class SongRestController {
     );
 
     @GetMapping("/")
-    public ResponseEntity<SongsResponseDto> getAllSongs(@RequestParam(required = false) Integer limit) {
+    public ResponseEntity<SongResponseDto> getAllSongs(@RequestParam(required = false) Integer limit) {
         if (limit != null) {
             Map<Integer, Song> songs = database.entrySet()
                     .stream()
                     .limit(limit)
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            SongsResponseDto response = new SongsResponseDto(songs);
+            SongResponseDto response = new SongResponseDto(songs);
             return ResponseEntity.ok(response);
         }
-        SongsResponseDto songResponseDto = new SongsResponseDto(database);
+        SongResponseDto songResponseDto = new SongResponseDto(database);
         return ResponseEntity.ok(songResponseDto);
     }
 
     @GetMapping("/{songId}")
-    public ResponseEntity<SingleSongResponseDto> getSongById(@PathVariable Integer songId, @RequestHeader(required = false) String requestId) {
+    public ResponseEntity<GetSongResponseDto> getSongById(@PathVariable Integer songId, @RequestHeader(required = false) String requestId) {
         log.info(requestId);
         Song song = database.get(songId);
 
         if (!database.containsKey(songId)) {
             throw new SongNotFoundException("Song with: " + songId + " not found");
         }
-        SingleSongResponseDto response = new SingleSongResponseDto(song);
+        GetSongResponseDto response = new GetSongResponseDto(song);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/")
-    public ResponseEntity<SingleSongResponseDto> postSong(@RequestBody @Valid SongRequestDto request) {
+    public ResponseEntity<createSongResponseDto> createSongRequestDto(@RequestBody @Valid SongRequestDto request) {
         Song newSong = new Song(request.songName(), request.artist());
         database.put(database.size() + 1, newSong);
-        return ResponseEntity.ok(new SingleSongResponseDto(newSong));
+        return ResponseEntity.ok(new createSongResponseDto(newSong));
     }
 
     @DeleteMapping("/{id}")

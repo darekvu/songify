@@ -1,7 +1,12 @@
 package com.songify.song.domain.model;
 
+import jakarta.persistence.Entity;
 import lombok.Builder;
 
 @Builder
-public record Song(String name, String artist) {
+@Entity
+public class Song() {
+    String name;
+    String artist;
+
 }

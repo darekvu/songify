@@ -1,22 +1,19 @@
 package com.songify.song.domain.service;
 
-import com.songify.song.domain.model.Song;
 import com.songify.song.domain.repository.SongRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-
 @Log4j2
 @Service
-public class SongAdder {
+public class SongDeleter {
     private final SongRepository songRepository;
 
-    public SongAdder(SongRepository songRepository) {
+    public SongDeleter(SongRepository songRepository) {
         this.songRepository = songRepository;
     }
 
-    public Song addSong(Song newSong) {
-        log.info("adding new song " + newSong);
-        return songRepository.save(newSong);
+    public void deleteSong(Long songId) {
+        log.info("Deleting song...");
+        songRepository.deleteById(songId);
     }
-
 }

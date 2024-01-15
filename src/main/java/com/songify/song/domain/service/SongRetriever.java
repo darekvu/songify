@@ -2,11 +2,12 @@ package com.songify.song.domain.service;
 
 import com.songify.song.domain.model.Song;
 import com.songify.song.domain.repository.SongRepository;
-import com.songify.song.domain.repository.SongRepositoryInMemory;
+import com.songify.song.infrastructure.controller.exception.SongNotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Log4j2
@@ -25,5 +26,13 @@ public class SongRetriever {
     public List<Song> findAllLimitedBy(Integer limit) {
         return songRepository.findAll().stream().limit(limit).toList();
 
+    }
+
+    public Optional<Song> findSongById(Long songId) {
+        return songRepository.findById(songId);
+    }
+    public void existById(Long songId){
+        findSongById(songId)
+                .orElseThrow(()->new SongNotFoundException("not found karamba"));
     }
 }

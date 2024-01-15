@@ -7,7 +7,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Log4j2
@@ -28,11 +27,14 @@ public class SongRetriever {
 
     }
 
-    public Optional<Song> findSongById(Long songId) {
-        return songRepository.findById(songId);
+    public Song findSongById(Long songId) {
+        return songRepository.findById(songId).
+                orElseThrow(() -> new SongNotFoundException("Song with id: " + songId + "not found"));
     }
-    public void existById(Long songId){
-        findSongById(songId)
-                .orElseThrow(()->new SongNotFoundException("not found karamba"));
+
+    public void existsById(Long songId) {
+       if (!songRepository.existsById(songId)){
+           throw new SongNotFoundException("Song with id: " + songId + "not found");
+        }
     }
 }

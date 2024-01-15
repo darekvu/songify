@@ -7,12 +7,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class SongDeleter {
     private final SongRepository songRepository;
+    private final SongRetriever songRetriever;
 
-    public SongDeleter(SongRepository songRepository) {
+    public SongDeleter(SongRepository songRepository, SongRetriever songRetriever) {
         this.songRepository = songRepository;
+        this.songRetriever = songRetriever;
     }
 
     public void deleteSong(Long songId) {
+        songRetriever.existsById(songId);
         log.info("Deleting song...");
         songRepository.deleteById(songId);
     }

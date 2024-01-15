@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface SongRepository extends Repository<Song,Long> {
+public interface SongRepository extends Repository<Song, Long> {
     Song save(Song song);
 
     List<Song> findAll();
@@ -21,4 +21,6 @@ public interface SongRepository extends Repository<Song,Long> {
     @Modifying
     @Query("UPDATE Song s SET s.name = :#{#newSong.name}, s.artist = :#{#newSong.artist} WHERE s.id = :songId")
     void updateById(Long songId, Song newSong);
+
+    boolean existsById(Long id);
 }

@@ -1,6 +1,8 @@
 package com.songify.song.domain.repository;
 
 import com.songify.song.domain.model.Song;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -10,12 +12,15 @@ import java.util.Optional;
 
 
 public interface SongRepository extends Repository<Song, Long> {
-    Song save(Song song);
 
-    List<Song> findAll();
+    @Query("SELECT s FROM Song s")
+    List<Song> findAll(Pageable pageable);
 
+    @Query("SELECT s FROM Song s WHERE s.id =:songId")
     Optional<Song> findById(Long songId);
 
+    @Modifying
+    @Query("DELETE FROM Song s WHERE s.id = :songId")
     void deleteById(Long songId);
 
     @Modifying
@@ -23,4 +28,8 @@ public interface SongRepository extends Repository<Song, Long> {
     void updateById(Long songId, Song newSong);
 
     boolean existsById(Long id);
+    Song save(Song song);
+
+
+    Optional<Song> findByArtistEqualsIgnoreCase(String artistName);
 }

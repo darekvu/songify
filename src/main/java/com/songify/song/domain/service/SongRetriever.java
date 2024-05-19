@@ -22,11 +22,6 @@ public class SongRetriever {
         return songRepository.findAll(pageable);
     }
 
-//    public List<Song> findAllLimitedBy(Integer limit) {
-//        return songRepository.findAll().stream().limit(limit).toList();
-//
-//    }
-
     public Song findSongById(Long songId) {
         return songRepository.findById(songId).
                 orElseThrow(() -> new SongNotFoundException("Song with id: " + songId + "not found"));

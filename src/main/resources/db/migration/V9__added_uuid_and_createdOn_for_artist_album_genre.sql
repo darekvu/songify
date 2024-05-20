@@ -1,0 +1,17 @@
+ALTER TABLE album
+    ADD created_on TIMESTAMP WITHOUT TIME ZONE;
+
+ALTER TABLE album
+    ADD uuid UUID;
+
+ALTER TABLE artist
+    ADD created_on TIMESTAMP WITHOUT TIME ZONE;
+
+ALTER TABLE artist
+    ADD uuid UUID;
+
+ALTER TABLE genre
+    ADD created_on TIMESTAMP WITHOUT TIME ZONE;
+
+ALTER TABLE genre
+    ADD uuid UUID;

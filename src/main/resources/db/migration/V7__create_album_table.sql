@@ -1,9 +1,8 @@
 CREATE TABLE album
 (
-    id           BIGINT NOT NULL,
+    id           BIGSERIAL PRIMARY KEY,
     title        VARCHAR(255),
-    release_date TIMESTAMP WITHOUT TIME ZONE,
-    CONSTRAINT pk_album PRIMARY KEY (id)
+    release_date TIMESTAMP(6) WITH TIME ZONE
 );
 
 CREATE SEQUENCE IF NOT EXISTS album_id_seq START WITH 1 INCREMENT BY 1;

@@ -1,6 +1,6 @@
-package com.songify.domain.crud.song;
+package com.songify.domain.crud;
 
-import com.songify.domain.crud.song.dto.SongDto;
+import com.songify.domain.crud.dto.SongDto;
 
 class SongDomainMapper {
     public static SongDto mapFromSongToSongDto(Song song) {

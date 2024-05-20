@@ -1,4 +1,4 @@
-package com.songify.domain.crud.song;
+package com.songify.domain.crud;
 
 import com.songify.infrastructure.crud.song.controller.exception.SongNotFoundException;
 import lombok.AllArgsConstructor;

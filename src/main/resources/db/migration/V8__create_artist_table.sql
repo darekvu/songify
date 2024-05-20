@@ -1,0 +1,8 @@
+CREATE SEQUENCE IF NOT EXISTS artist_id_seq START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE artist
+(
+    id   BIGINT       NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    CONSTRAINT pk_artist PRIMARY KEY (id)
+);

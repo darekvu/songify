@@ -1,0 +1,22 @@
+INSERT INTO song(name,duration,release_date,language,album_id,genre_id)
+  VALUES
+('Shape of You', 240, '2022-01-15', 'ENGLISH', 1, 1),
+('Despacito', 360, '2021-06-23', 'SPANISH', 2, 2),
+('Blinding Lights', 150, '2020-11-12', 'ENGLISH', 3, 1),
+('Havana', 320, '2023-02-10', 'SPANISH', 4, 2),
+('Someone Like You', 220, '2019-08-09', 'ENGLISH', 5, 1),
+('La Bicicleta', 180, '2022-07-19', 'SPANISH', 6, 2),
+('Rolling in the Deep', 190, '2021-04-05', 'ENGLISH', 7, 1),
+('Bailando', 300, '2020-09-29', 'SPANISH', 8, 2),
+('Thinking Out Loud', 230, '2023-01-17', 'ENGLISH', 9, 1),
+('Vivir Mi Vida', 270, '2019-12-31', 'SPANISH', 10, 2),
+('Uptown Funk', 290, '2021-03-22', 'ENGLISH', 11, 1),
+('Felices los 4', 160, '2020-06-11', 'SPANISH', 12, 2),
+('Hello', 340, '2023-04-15', 'ENGLISH', 13, 1),
+('Súbeme la Radio', 200, '2019-10-14', 'SPANISH', 14, 2),
+('Perfect', 250, '2022-05-26', 'ENGLISH', 15, 1),
+('Chantaje', 280, '2021-08-03', 'SPANISH', 16, 2),
+('Let Her Go', 170, '2020-12-07', 'ENGLISH', 17, 1),
+('Dákiti', 310, '2023-03-20', 'SPANISH', 18, 2),
+('Bad Guy', 260, '2019-07-30', 'ENGLISH', 19, 1),
+('Con Calma', 140, '2022-02-14', 'SPANISH', 1, 2);

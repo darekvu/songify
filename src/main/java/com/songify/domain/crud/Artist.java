@@ -36,4 +36,8 @@ class Artist extends BaseEntity {
     private String name;
     @ManyToMany
     private Set<Album> albums = new HashSet<>();
+
+    Artist(final String name) {
+        this.name = name;
+    }
 }

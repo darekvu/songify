@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface SongRepository extends Repository<Song, Long> {
+ interface SongRepository extends Repository<Song, Long> {
 
     @Query("SELECT s FROM Song s")
     List<Song> findAll(Pageable pageable);

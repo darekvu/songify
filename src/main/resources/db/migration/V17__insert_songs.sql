@@ -19,4 +19,4 @@ INSERT INTO song(name,duration,release_date,language,album_id,genre_id)
 ('Let Her Go', 170, '2020-12-07', 'ENGLISH', 17, 1),
 ('Dákiti', 310, '2023-03-20', 'SPANISH', 18, 2),
 ('Bad Guy', 260, '2019-07-30', 'ENGLISH', 19, 1),
-('Con Calma', 140, '2022-02-14', 'SPANISH', 1, 2);
+('Con Calma', 140, '2022-02-14', 'SPANISH', 1, 2)

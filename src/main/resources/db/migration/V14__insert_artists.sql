@@ -18,4 +18,4 @@ VALUES ('Pink Floyd'),
        ('David Bowie'),
        ('Bob Dylan'),
        ('Rolling Stones'),
-       ('Jimi Hendrix');
+       ('Jimi Hendrix')

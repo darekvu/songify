@@ -28,12 +28,12 @@ class SongUpdater {
             builder.name(songFromDatabase.getName());
         }
 
-        if (songFromRequest.getArtist() != null) {
-            builder.artist(songFromRequest.getArtist());
-            log.info("partially updated artist");
-        } else {
-            builder.artist(songFromDatabase.getArtist());
-        }
+//        if (songFromRequest.getArtist() != null) {
+//            builder.artist(songFromRequest.getArtist());
+//            log.info("partially updated artist");
+//        } else {
+//            builder.artist(songFromDatabase.getArtist());
+//        }
         Song toSave = builder.build();
         updateById(songId, toSave);
         return toSave;

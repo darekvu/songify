@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 @Log4j2
 @AllArgsConstructor(access = lombok.AccessLevel.PACKAGE)
+@Service
 class SongRetriever {
     private final SongRepository songRepository;
 
@@ -30,8 +30,4 @@ class SongRetriever {
         }
     }
 
-    Song findArtist() {
-        return songRepository.findByArtistEqualsIgnoreCase("Ariana Grande")
-                .orElseThrow(() -> new SongNotFoundException("Not found huehue"));
-    }
 }

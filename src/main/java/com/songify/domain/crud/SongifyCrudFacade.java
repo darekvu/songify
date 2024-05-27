@@ -7,6 +7,7 @@ import com.songify.domain.crud.dto.ArtistRequestDto;
 import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.GenreRequestDto;
 import com.songify.domain.crud.dto.SongDto;
+import com.songify.domain.crud.dto.SongRequestDto;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,11 @@ public class SongifyCrudFacade {
     }
 
     public AlbumDto addAlbumWithSong(AlbumRequestDto requestDto) {
-        return albumAdder.addAlbum(requestDto.songId(),requestDto.title(),requestDto.releaseDate());
+        return albumAdder.addAlbum(requestDto.songId(), requestDto.title(), requestDto.releaseDate());
+    }
+
+    public SongDto addSong(final SongRequestDto songRequestDto) {
+        return songAdder.addSong(songRequestDto);
     }
 
     public GenreDto addGenre(GenreRequestDto genreDto) {
@@ -81,15 +86,15 @@ public class SongifyCrudFacade {
                 .build();
     }
 
-    public SongDto addSong(final SongDto songDto) {
-//        some domain validator
-        String name = songDto.name();
-//        some domain validator ended checking
-        Song song = new Song(songDto.name());
-        Song addedSong = songAdder.addSong(song);
-        return SongDto.builder()
-                .id(addedSong.getId())
-                .name(addedSong.getName())
-                .build();
-    }
+//    public SongDto addSong(final SongDto songDto) {
+////        some domain validator
+//        String name = songDto.name();
+////        some domain validator ended checking
+//        Song song = new Song(songDto.name());
+//        Song addedSong = songAdder.addSong(song);
+//        return SongDto.builder()
+//                .id(addedSong.getId())
+//                .name(addedSong.getName())
+//                .build();
+//    }
 }

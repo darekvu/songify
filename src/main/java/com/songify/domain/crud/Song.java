@@ -29,8 +29,6 @@ import java.time.Instant;
 class Song extends BaseEntity {
     @Column(nullable = false)
     String name;
-    @Column(nullable = false)
-    String artist;
     Instant releaseDate;
     @Id
     @GeneratedValue(
@@ -54,4 +52,10 @@ class Song extends BaseEntity {
         this.name = name;
     }
 
+    public Song(String name, Instant releaseDate, Long duration,SongLanguage language) {
+        this.name = name;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
+        this.language = language;
+    }
 }

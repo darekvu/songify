@@ -29,6 +29,4 @@ import java.util.Optional;
 
     Song save(Song song);
 
-
-    Optional<Song> findByArtistEqualsIgnoreCase(String artistName);
 }

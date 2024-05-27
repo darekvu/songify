@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
-@Service
 @AllArgsConstructor
 @Transactional
+@Service
 class AlbumAdder {
     private final AlbumRepository albumRepository;
     private final SongRetriever songRetriever;

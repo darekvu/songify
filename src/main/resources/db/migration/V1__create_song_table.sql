@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS song CASCADE;
 CREATE TABLE song
 (
     id           BIGSERIAL PRIMARY KEY       NOT NULL,

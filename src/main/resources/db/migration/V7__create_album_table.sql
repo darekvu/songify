@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS album CASCADE;
 CREATE TABLE album
 (
     id           BIGSERIAL PRIMARY KEY,

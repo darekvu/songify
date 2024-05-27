@@ -45,38 +45,32 @@ public class SongifyCrudFacade {
         return genreAdder.addGenre(genreDto.name());
     }
 
-    public Set<ArtistDto> findAllArtists() {
-        return artistRetriever.findAllArtists();
+    public Set<ArtistDto> findAllArtists(Pageable pageable) {
+        return artistRetriever.findAllArtists(pageable);
     }
 
-    public List<SongDto> findAll(final Pageable pageable) {
-        return songRetriever.findAll(pageable)
-                .stream()
-                .map(SongDomainMapper::mapFromSongToSongDto)
-                .toList();
+    public List<SongDto> findAllSongs(final Pageable pageable) {
+        return songRetriever.findAll(pageable);
+
     }
 
     public SongDto findSongDtoById(final Long songId) {
-        final Song song = songRetriever.findSongById(songId);
-        return SongDto.builder()
-                .id(song.getId())
-                .name(song.getName())
-                .build();
+        return songRetriever.findSongDtoById(songId);
     }
 
-    public void deleteSong(final Long songId) {
+    public void deleteSongById(final Long songId) {
         songRetriever.existsById(songId);
         songDeleter.deleteById(songId);
     }
 
-    public void updateById(final Long songId, final SongDto newSongDto) {
+    public void updateSongById(final Long songId, final SongDto newSongDto) {
         songRetriever.existsById(songId);
         Song songValidatedAndReadyToUpdate = new Song(newSongDto.name());
         //some domain validator
         songUpdater.updateById(songId, songValidatedAndReadyToUpdate);
     }
 
-    public SongDto updatePartiallyById(final Long songId, final SongDto songFromRequest) {
+    public SongDto updateSongPartiallyById(final Long songId, final SongDto songFromRequest) {
         songRetriever.existsById(songId);
         Song songFromDatabase = songRetriever.findSongById(songId);
         Song toSave = new Song();

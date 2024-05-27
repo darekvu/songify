@@ -1,6 +1,7 @@
 package com.songify.domain.crud;
 
 import com.songify.domain.crud.dto.AlbumDto;
+import com.songify.domain.crud.dto.AlbumDtoWithArtistsAndSongs;
 import com.songify.domain.crud.dto.AlbumRequestDto;
 import com.songify.domain.crud.dto.ArtistDto;
 import com.songify.domain.crud.dto.ArtistRequestDto;
@@ -27,6 +28,7 @@ public class SongifyCrudFacade {
     private final ArtistAdder artistAdder;
     private final GenreAdder genreAdder;
     private final AlbumAdder albumAdder;
+    private final AlbumRetriever albumRetriever;
     private final ArtistRetriever artistRetriever;
 
     public ArtistDto addArtist(ArtistRequestDto requestDto) {
@@ -52,6 +54,10 @@ public class SongifyCrudFacade {
     public List<SongDto> findAllSongs(final Pageable pageable) {
         return songRetriever.findAll(pageable);
 
+    }
+
+    public AlbumDtoWithArtistsAndSongs findAlbumByIdWithArtistsAndSongs(Long id) {
+        return albumRetriever.findAlbumByIdWithArtistsAndSongs(id);
     }
 
     public SongDto findSongDtoById(final Long songId) {

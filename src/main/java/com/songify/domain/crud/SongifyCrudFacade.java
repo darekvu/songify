@@ -53,7 +53,6 @@ public class SongifyCrudFacade {
 
     public List<SongDto> findAllSongs(final Pageable pageable) {
         return songRetriever.findAll(pageable);
-
     }
 
     public AlbumDtoWithArtistsAndSongs findAlbumByIdWithArtistsAndSongs(Long id) {
@@ -66,8 +65,13 @@ public class SongifyCrudFacade {
 
     public void deleteSongById(final Long songId) {
         songRetriever.existsById(songId);
-        songDeleter.deleteById(songId);
+        songDeleter.deleteSongById(songId);
     }
+
+    public void deleteSongAndGenreById(final Long songId) {
+        songDeleter.deleteSongAndGenreById(songId);
+    }
+
 
     public void updateSongById(final Long songId, final SongDto newSongDto) {
         songRetriever.existsById(songId);

@@ -28,4 +28,8 @@ class AlbumRetriever {
         Set<SongDto> songsDto = songs.stream().map(song -> new SongDto(song.getId(), song.getName())).collect(Collectors.toSet());
         return new AlbumDtoWithArtistsAndSongs(albumDto, artistsDto, songsDto);
     }
+
+    Set<Album> findAlbumsByArtistsId(final long artistId) {
+        return albumRepository.findAllAlbumsByArtistsId(artistId);
+    }
 }

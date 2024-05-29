@@ -4,7 +4,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +31,7 @@ import java.util.Optional;
 
     Song save(Song song);
 
-}
+    @Modifying
+    @Query("delete from Song s where s.id in :ids")
+    int deleteByIdIn(Collection<Long> ids);
+ }

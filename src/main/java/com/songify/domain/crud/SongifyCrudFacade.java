@@ -31,9 +31,13 @@ public class SongifyCrudFacade {
     private final AlbumRetriever albumRetriever;
     private final ArtistRetriever artistRetriever;
     private final ArtistDeleter artistDeleter;
+    private final ArtistAssigner artistAssigner;
 
     public ArtistDto addArtist(ArtistRequestDto requestDto) {
         return artistAdder.addArtist(requestDto.name());
+    }
+    public void addArtistToAlbum(Long artistId,Long albumId){
+        artistAssigner.addArtistToAlbum(artistId,albumId);
     }
 
     public AlbumDto addAlbumWithSong(AlbumRequestDto requestDto) {

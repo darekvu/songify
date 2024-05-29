@@ -4,7 +4,8 @@ import com.songify.domain.crud.dto.AlbumDto;
 import com.songify.domain.crud.dto.AlbumDtoWithArtistsAndSongs;
 import com.songify.domain.crud.dto.AlbumRequestDto;
 import com.songify.domain.crud.dto.ArtistDto;
-import com.songify.domain.crud.dto.ArtistRequestDto;
+import com.songify.infrastructure.crud.artist.ArtistRequestDto;
+import com.songify.domain.crud.dto.ArtistWithAlbumAndSongsDto;
 import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.GenreRequestDto;
 import com.songify.domain.crud.dto.SongDto;
@@ -37,16 +38,21 @@ public class SongifyCrudFacade {
     public ArtistDto addArtist(ArtistRequestDto requestDto) {
         return artistAdder.addArtist(requestDto.name());
     }
-    public void addArtistToAlbum(Long artistId,Long albumId){
-        artistAssigner.addArtistToAlbum(artistId,albumId);
+
+    public void addArtistToAlbum(Long artistId, Long albumId) {
+        artistAssigner.addArtistToAlbum(artistId, albumId);
+    }
+
+    public ArtistWithAlbumAndSongsDto addArtistsWithDefaultAlbumAndSong(ArtistRequestDto requestDto) {
+        return artistAdder.addArtistWithDefaultAlbumAndSong(requestDto);
     }
 
     public AlbumDto addAlbumWithSong(AlbumRequestDto requestDto) {
         return albumAdder.addAlbum(requestDto.songId(), requestDto.title(), requestDto.releaseDate());
     }
 
-    public ArtistDto updateArtistNameById(Long artistId,String newName){
-        return artistUpdater.updateArtistsNameById(artistId,newName);
+    public ArtistDto updateArtistNameById(Long artistId, String newName) {
+        return artistUpdater.updateArtistsNameById(artistId, newName);
     }
 
     public SongDto addSong(final SongRequestDto songRequestDto) {
@@ -68,7 +74,8 @@ public class SongifyCrudFacade {
     public AlbumDtoWithArtistsAndSongs findAlbumByIdWithArtistsAndSongs(Long id) {
         return albumRetriever.findAlbumByIdWithArtistsAndSongs(id);
     }
-    public void deleteArtistsByIdWithAlbumsAndSongs(Long artistId){
+
+    public void deleteArtistsByIdWithAlbumsAndSongs(Long artistId) {
         artistDeleter.deleteArtistByIdWithAlbumsAndSongs(artistId);
     }
 

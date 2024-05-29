@@ -2,7 +2,7 @@ package com.songify.infrastructure.crud.artist;
 
 import com.songify.domain.crud.SongifyCrudFacade;
 import com.songify.domain.crud.dto.ArtistDto;
-import com.songify.domain.crud.dto.ArtistRequestDto;
+import com.songify.domain.crud.dto.ArtistWithAlbumAndSongsDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -32,6 +32,12 @@ class ArtistController {
     ResponseEntity<ArtistDto> postArtist(@RequestBody ArtistRequestDto artistRequestDto) {
         ArtistDto artistDto = songifyCrudFacade.addArtist(artistRequestDto);
         return ResponseEntity.ok(artistDto);
+    }
+
+    @PostMapping("/album/song")
+    ResponseEntity<ArtistWithAlbumAndSongsDto> addArtistWithDefaultAlbumAndSong(@RequestBody ArtistRequestDto artistRequestDto) {
+        ArtistWithAlbumAndSongsDto artistWithAlbumAndSongsDto = songifyCrudFacade.addArtistsWithDefaultAlbumAndSong(artistRequestDto);
+        return ResponseEntity.ok(artistWithAlbumAndSongsDto);
     }
 
     @GetMapping

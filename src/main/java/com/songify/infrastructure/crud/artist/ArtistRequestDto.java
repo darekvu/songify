@@ -1,4 +1,4 @@
-package com.songify.domain.crud.dto;
+package com.songify.infrastructure.crud.artist;
 
 public record ArtistRequestDto(String name) {
 }

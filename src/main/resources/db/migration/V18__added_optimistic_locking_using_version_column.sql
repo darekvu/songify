@@ -1,0 +1,15 @@
+ALTER TABLE album
+    ADD version BIGINT DEFAULT 0,
+    ALTER COLUMN version SET NOT NULL;
+
+ALTER TABLE artist
+    ADD version BIGINT DEFAULT 0,
+    ALTER COLUMN version SET NOT NULL;
+
+ALTER TABLE genre
+    ADD version BIGINT DEFAULT 0,
+    ALTER COLUMN version SET NOT NULL;
+
+ALTER TABLE song
+    ADD version BIGINT DEFAULT 0,
+    ALTER COLUMN version SET NOT NULL;

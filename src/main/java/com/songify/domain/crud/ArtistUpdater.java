@@ -13,9 +13,11 @@ class ArtistUpdater {
     private final ArtistRepository artistRepository;
 
 
-    ArtistDto updateArtistsNameById(Long artistId, String newName) {
-        artistRepository.updateNameById(newName, artistId);
+    ArtistDto updateArtistsNameById(final Long artistId, final String newName) {
         Artist artist = artistRetriever.findById(artistId);
-        return new ArtistDto(artist.getId(),newName);
+        artistRepository.updateNameById(newName, artistId);
+//        Artist artist = artistRetriever.findById(artistId);
+//        artist.setName(newName);
+        return new ArtistDto(artist.getId(), newName);
     }
 }

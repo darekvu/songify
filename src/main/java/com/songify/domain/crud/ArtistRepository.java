@@ -1,6 +1,9 @@
 package com.songify.domain.crud;
 
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.NamedQuery;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -14,7 +17,7 @@ interface ArtistRepository extends Repository<Artist, Long> {
     Artist save(Artist artist);
 
     Set<Artist> findAll(Pageable pageable);
-
+    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
     Optional<Artist> findById(Long id);
 
     @Modifying

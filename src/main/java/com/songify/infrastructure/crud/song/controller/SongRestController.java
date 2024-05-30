@@ -11,6 +11,7 @@ import com.songify.infrastructure.crud.song.controller.dto.response.GetAllSongsR
 import com.songify.infrastructure.crud.song.controller.dto.response.GetSongResponseDto;
 import com.songify.infrastructure.crud.song.controller.dto.response.PartiallyUpdatedSongResponseDto;
 import com.songify.infrastructure.crud.song.controller.dto.response.UpdateSongResponseDto;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;

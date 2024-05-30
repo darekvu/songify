@@ -3,6 +3,7 @@ package com.songify.infrastructure.crud.artist;
 import com.songify.domain.crud.SongifyCrudFacade;
 import com.songify.domain.crud.dto.ArtistDto;
 import com.songify.domain.crud.dto.ArtistWithAlbumAndSongsDto;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -25,6 +26,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Log4j2
 @RequestMapping("artists")
+@Transactional
 class ArtistController {
     private final SongifyCrudFacade songifyCrudFacade;
 
@@ -57,7 +59,6 @@ class ArtistController {
         songifyCrudFacade.addArtistToAlbum(artistId, albumId);
         return ResponseEntity.ok("Assigned artist to album ");
     }
-
     @PatchMapping("/{artistId}")
     ResponseEntity<ArtistDto> updateArtistsNameById(@PathVariable Long artistId, @Valid @RequestBody ArtistsUpdateRequestDto requestDto) {
         ArtistDto artistDto = songifyCrudFacade.updateArtistNameById(artistId, requestDto.name());

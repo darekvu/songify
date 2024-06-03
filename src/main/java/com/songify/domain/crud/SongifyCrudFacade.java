@@ -4,12 +4,12 @@ import com.songify.domain.crud.dto.AlbumDto;
 import com.songify.domain.crud.dto.AlbumDtoWithArtistsAndSongs;
 import com.songify.domain.crud.dto.AlbumRequestDto;
 import com.songify.domain.crud.dto.ArtistDto;
-import com.songify.infrastructure.crud.artist.ArtistRequestDto;
 import com.songify.domain.crud.dto.ArtistWithAlbumAndSongsDto;
 import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.GenreRequestDto;
 import com.songify.domain.crud.dto.SongDto;
 import com.songify.domain.crud.dto.SongRequestDto;
+import com.songify.infrastructure.crud.artist.ArtistRequestDto;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +50,7 @@ public class SongifyCrudFacade {
     public AlbumDto addAlbumWithSong(AlbumRequestDto requestDto) {
         return albumAdder.addAlbum(requestDto.songId(), requestDto.title(), requestDto.releaseDate());
     }
+
     public ArtistDto updateArtistNameById(Long artistId, String newName) {
         return artistUpdater.updateArtistsNameById(artistId, newName);
     }
@@ -113,6 +114,10 @@ public class SongifyCrudFacade {
                 .id(toSave.getId())
                 .name(toSave.getName())
                 .build();
+    }
+
+    Set<AlbumDto> findAlbumsByArtistId(Long artistId) {
+        return albumRetriever.findAlbumsDtoByArtistsId(artistId);
     }
 
 //    public SongDto addSong(final SongDto songDto) {

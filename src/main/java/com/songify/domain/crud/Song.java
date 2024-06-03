@@ -31,9 +31,9 @@ import java.time.Instant;
 @NoArgsConstructor
 @Table(name = "song",
         indexes = @Index(
-        name = "idx_song_name",
-        columnList = "name"
-))
+                name = "idx_song_name",
+                columnList = "name"
+        ))
 class Song extends BaseEntity {
     @Column(nullable = false)
     String name;

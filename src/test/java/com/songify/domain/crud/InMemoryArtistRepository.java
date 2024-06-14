@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class InMemoryArtistRepository implements ArtistRepository {
     Map<Long, Artist> db = new HashMap<>();
-    AtomicLong index = new AtomicLong();
+    AtomicLong index = new AtomicLong(0);
 
     @Override
     public Artist save(Artist artist) {

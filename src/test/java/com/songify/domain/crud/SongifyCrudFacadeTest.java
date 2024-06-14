@@ -1,13 +1,20 @@
 package com.songify.domain.crud;
 
+import com.songify.domain.crud.dto.AlbumDto;
+import com.songify.domain.crud.dto.AlbumRequestDto;
 import com.songify.domain.crud.dto.ArtistDto;
+import com.songify.domain.crud.dto.SongDto;
+import com.songify.domain.crud.dto.SongLanguageDto;
+import com.songify.domain.crud.dto.SongRequestDto;
 import com.songify.infrastructure.crud.artist.ArtistRequestDto;
+import com.songify.infrastructure.crud.song.controller.exception.SongNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Pageable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 class SongifyCrudFacadeTest {
     SongifyCrudFacade songifyCrudFacade = SongifyCrudFacadeConfiguration.createSongifyCrud(
@@ -60,7 +67,6 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
-    @DisplayName("Should not throw exception ArtistNotFound when id:1")
     void should_not_throw_exception_when_artist_not_found() {
 //        given
         ArtistRequestDto artistRequestDto = ArtistRequestDto.builder()
@@ -92,5 +98,114 @@ class SongifyCrudFacadeTest {
         assertThat(songifyCrudFacade.findAllArtists(Pageable.unpaged())).isEmpty();
     }
 
-//    public void should_delee
+    @Test
+    @DisplayName("Should delete artist by id when he has 1 album")
+    void should_delete_artist_with_album_and_songs_when_there_was_the_only_artist_in_album() {
+//        given
+        ArtistRequestDto artistRequestDto = ArtistRequestDto.builder()
+                .name("Shawn Mendes")
+                .build();
+        //when
+        ArtistDto artistDto = songifyCrudFacade.addArtist(artistRequestDto);
+        SongRequestDto songRequestDto = SongRequestDto.builder()
+                .name("song1")
+                .language(SongLanguageDto.ENGLISH)
+                .build();
+        SongDto songDto = songifyCrudFacade.addSong(songRequestDto);
+
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSong(AlbumRequestDto.builder()
+                .songId(songDto.id())
+                .title("album title 1")
+                .build());
+        songifyCrudFacade.addArtistToAlbum(artistDto.id(), albumDto.id());
+        assertThat(songifyCrudFacade.findAlbumsByArtistId(artistDto.id())).size().isEqualTo(1);
+        assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id()).artists().size()).isEqualTo(1);
+        //then
+        songifyCrudFacade.deleteArtistsByIdWithAlbumsAndSongs(artistDto.id());
+
+        assertThat(songifyCrudFacade.findAllArtists(Pageable.unpaged())).isEmpty();
+        Throwable throwable = catchThrowable(() -> songifyCrudFacade.findSongDtoById(songDto.id()));
+        assertThat(throwable).isInstanceOf(SongNotFoundException.class);
+        assertThat(throwable.getMessage()).isEqualTo("Song with id: 0not found");
+        assertThatThrownBy(() -> songifyCrudFacade.findAlbumDtoById(albumDto.id()))
+                .isInstanceOf(AlbumNotFoundException.class)
+                .hasMessageContaining("Album with [%s] not found".formatted(albumDto.id()));
+    }
+
+    @Test
+    void should_delete_only_artist_from_album_by_id_when_there_were_more_than_one_artist() {
+//        given
+        ArtistRequestDto artistRequestDto = ArtistRequestDto.builder()
+                .name("Shawn Mendes")
+                .build();
+        //when
+        ArtistDto artistDto = songifyCrudFacade.addArtist(artistRequestDto);
+        SongRequestDto songRequestDto = SongRequestDto.builder()
+                .name("song1")
+                .language(SongLanguageDto.ENGLISH)
+                .build();
+        SongDto songDto = songifyCrudFacade.addSong(songRequestDto);
+
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSong(AlbumRequestDto.builder()
+                .songId(songDto.id())
+                .title("album title 1")
+                .build());
+        songifyCrudFacade.addArtistToAlbum(artistDto.id(), albumDto.id());
+        assertThat(songifyCrudFacade.findAlbumsByArtistId(artistDto.id())).size().isEqualTo(1);
+        assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id()).artists().size()).isEqualTo(1);
+        //then
+        songifyCrudFacade.deleteArtistsByIdWithAlbumsAndSongs(artistDto.id());
+
+        assertThat(songifyCrudFacade.findAllArtists(Pageable.unpaged())).isEmpty();
+    }
+
+    @Test
+    void should_add_album_with_song() {
+        //given
+
+        //when
+
+        //then
+    }
+
+
+    @Test
+    void should_add_song() {
+        //given
+        SongRequestDto song = SongRequestDto.builder()
+                .name("song1")
+                .language(SongLanguageDto.ENGLISH)
+                .build();
+        //when
+        songifyCrudFacade.addSong(song);
+        //then
+
+    }
+
+    @Test
+    void should_add_artist_to_album() {
+        //given
+
+        //when
+
+        //then
+    }
+
+    @Test
+    void should_return_album_by_id() {
+        //given
+
+        //when
+
+        //then
+    }
+
+    @Test
+    void should_throw_exception_when_album_not_found_by_id() {
+        //given
+
+        //when
+
+        //then
+    }
 }

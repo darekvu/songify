@@ -83,6 +83,10 @@ public class SongifyCrudFacade {
         return songRetriever.findSongDtoById(songId);
     }
 
+    public AlbumDto findAlbumDtoById(final Long albumId) {
+        return albumRetriever.findAlbumDtoById(albumId);
+    }
+
     public void deleteSongById(final Long songId) {
         songRetriever.existsById(songId);
         songDeleter.deleteSongById(songId);
@@ -120,15 +124,4 @@ public class SongifyCrudFacade {
         return albumRetriever.findAlbumsDtoByArtistsId(artistId);
     }
 
-//    public SongDto addSong(final SongDto songDto) {
-////        some domain validator
-//        String name = songDto.name();
-////        some domain validator ended checking
-//        Song song = new Song(songDto.name());
-//        Song addedSong = songAdder.addSong(song);
-//        return SongDto.builder()
-//                .id(addedSong.getId())
-//                .name(addedSong.getName())
-//                .build();
-//    }
 }

@@ -9,13 +9,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class InMemorySongRepository implements SongRepository {
+ class InMemorySongRepository implements SongRepository {
     Map<Long, Song> db = new HashMap<>();
     AtomicLong index = new AtomicLong(0);
 
     @Override
     public List<Song> findAll(Pageable pageable) {
-        return List.of();
+        return db.values().stream().toList();
     }
 
     @Override

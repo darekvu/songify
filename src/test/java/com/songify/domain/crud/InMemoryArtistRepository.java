@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class InMemoryArtistRepository implements ArtistRepository {
+ class InMemoryArtistRepository implements ArtistRepository {
     Map<Long, Artist> db = new HashMap<>();
     AtomicLong index = new AtomicLong(0);
 

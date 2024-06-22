@@ -12,6 +12,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -168,7 +171,6 @@ class SongifyCrudFacadeTest {
         //then
     }
 
-
     @Test
     void should_add_song() {
         //given
@@ -176,36 +178,73 @@ class SongifyCrudFacadeTest {
                 .name("song1")
                 .language(SongLanguageDto.ENGLISH)
                 .build();
+        assertThat(songifyCrudFacade.findAllSongs(Pageable.unpaged())).isEmpty();
         //when
-        songifyCrudFacade.addSong(song);
+        SongDto songDto = songifyCrudFacade.addSong(song);
         //then
-
+        List<SongDto> allSongs = songifyCrudFacade.findAllSongs(Pageable.unpaged());
+        assertThat(songDto.name()).isEqualTo(song.name());
+        assertThat(allSongs).extracting(SongDto::id)
+                .containsExactly(0L);
     }
 
     @Test
     void should_add_artist_to_album() {
         //given
-
+        ArtistRequestDto artistRequestDto = ArtistRequestDto.builder()
+                .name("Shawn Mendes")
+                .build();
         //when
+        ArtistDto artistDto = songifyCrudFacade.addArtist(artistRequestDto);
+        SongRequestDto songRequestDto = SongRequestDto.builder()
+                .name("song1")
+                .language(SongLanguageDto.ENGLISH)
+                .build();
+        SongDto songDto = songifyCrudFacade.addSong(songRequestDto);
 
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSong(AlbumRequestDto.builder()
+                .songId(songDto.id())
+                .title("album title 1")
+                .build());
+        Long albumId = albumDto.id();
+        Long artistId = artistDto.id();
         //then
+        assertThat(songifyCrudFacade.findAlbumsByArtistId(artistDto.id())).isEmpty();
+        songifyCrudFacade.addArtistToAlbum(artistId,albumId);
+        Set<AlbumDto> albumsByArtistId = songifyCrudFacade.findAlbumsByArtistId(artistDto.id());
+        assertThat(albumsByArtistId).isNotEmpty();
+        assertThat(albumsByArtistId).extracting(AlbumDto::title).containsExactly(albumDto.title());
     }
 
     @Test
     void should_return_album_by_id() {
         //given
+        SongRequestDto songRequestDto = SongRequestDto.builder()
+                .name("song1")
+                .language(SongLanguageDto.ENGLISH)
+                .build();
+        SongDto songDto = songifyCrudFacade.addSong(songRequestDto);
 
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSong(AlbumRequestDto.builder()
+                .songId(songDto.id())
+                .title("album title 1")
+                .build());
+        Long albumDtoId = albumDto.id();
         //when
-
+        AlbumDto album = songifyCrudFacade.findAlbumDtoById(albumDtoId);
         //then
+        assertThat(album).extracting("id","title")
+                .containsExactly(albumDtoId,albumDto.title());
     }
 
     @Test
     void should_throw_exception_when_album_not_found_by_id() {
-        //given
-
-        //when
-
+        ///given
+        Long albumId = 2L;
+       //when
         //then
+        assertThatThrownBy(() -> songifyCrudFacade.findAlbumDtoById(albumId))
+                .isInstanceOf(AlbumNotFoundException.class)
+                .hasMessageContaining("Album with [%s] not found".formatted(albumId));
     }
 }

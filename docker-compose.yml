@@ -11,8 +11,7 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: postgres
     volumes:
-      -
-
+      - local_pgdata:/var/lib/postgresql/data
 #    volumes:
 #      - local_pgdata:/var/lib/postgresql/data
   pgadmin:
@@ -24,5 +23,7 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: a@a.com
       PGADMIN_DEFAULT_PASSWORD: admin
+volumes:
+  local_pgdata:
 
 

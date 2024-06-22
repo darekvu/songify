@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
-public class InMemoryAlbumRepository implements AlbumRepository {
+ class InMemoryAlbumRepository implements AlbumRepository {
     Map<Long, Album> db = new HashMap<>();
     AtomicLong index = new AtomicLong(0);
 

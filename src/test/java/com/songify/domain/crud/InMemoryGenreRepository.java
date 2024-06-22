@@ -1,6 +1,6 @@
 package com.songify.domain.crud;
 
-public class InMemoryGenreRepository implements GenreRepository {
+ class InMemoryGenreRepository implements GenreRepository {
     @Override
     public Genre save(Genre genre) {
         return null;

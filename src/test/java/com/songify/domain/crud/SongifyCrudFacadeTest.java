@@ -247,4 +247,13 @@ class SongifyCrudFacadeTest {
                 .isInstanceOf(AlbumNotFoundException.class)
                 .hasMessageContaining("Album with [%s] not found".formatted(albumId));
     }
+
+    @Test
+    void name() {
+        //given
+
+        //when
+
+        //then
+    }
 }

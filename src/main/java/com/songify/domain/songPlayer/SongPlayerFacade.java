@@ -1,6 +1,8 @@
 package com.songify.domain.songPlayer;
 
-public class SongPlayerFacade {
+import com.songify.domain.crud.SongifyCrudFacade;
+import com.songify.domain.crud.dto.SongDto;
 
+public class SongPlayerFacade {
 
 }

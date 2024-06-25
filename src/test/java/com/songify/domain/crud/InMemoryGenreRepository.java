@@ -1,13 +1,41 @@
 package com.songify.domain.crud;
 
- class InMemoryGenreRepository implements GenreRepository {
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
+
+class InMemoryGenreRepository implements GenreRepository {
+    Map<Long, Genre> db = new HashMap<>();
+    AtomicLong index = new AtomicLong(0);
+    public InMemoryGenreRepository(){
+        save(new Genre(1L,"default"));
+    }
+
     @Override
-    public Genre save(Genre genre) {
-        return null;
+    public Genre save(final Genre genre) {
+        long index = this.index.getAndIncrement();
+        db.put(index,genre);
+        genre.setId(index);
+        return genre;
     }
 
     @Override
     public void deleteGenreById(Long id) {
 
+    }
+
+    @Override
+    public Optional<Genre> findGenreById(Long id) {
+        Genre genre = db.get(id);
+        return Optional.ofNullable(genre);
+    }
+
+    @Override
+    public Set<Genre> findAll() {
+        return new HashSet<>(db.values());
     }
 }

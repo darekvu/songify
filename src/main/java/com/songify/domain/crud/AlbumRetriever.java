@@ -3,6 +3,7 @@ package com.songify.domain.crud;
 import com.songify.domain.crud.dto.AlbumDto;
 import com.songify.domain.crud.dto.AlbumDtoWithArtistsAndSongs;
 import com.songify.domain.crud.dto.ArtistDto;
+import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.SongDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ class AlbumRetriever {
         Set<ArtistDto> artistsDto = artists.stream()
                 .map(artist -> new ArtistDto(artist.getId(), artist.getName())).collect(Collectors.toSet());
 
-        Set<SongDto> songsDto = songs.stream().map(song -> new SongDto(song.getId(), song.getName())).collect(Collectors.toSet());
+        Set<SongDto> songsDto = songs.stream().map(song -> new SongDto(song.getId(), song.getName(),new GenreDto(song.getGenre().getId(),song.getGenre().getName()))).collect(Collectors.toSet());
         return new AlbumDtoWithArtistsAndSongs(albumDto, artistsDto, songsDto);
     }
 

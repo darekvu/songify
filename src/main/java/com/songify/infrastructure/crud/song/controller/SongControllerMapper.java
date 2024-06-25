@@ -1,5 +1,6 @@
 package com.songify.infrastructure.crud.song.controller;
 
+import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.SongDto;
 import com.songify.infrastructure.crud.song.controller.dto.request.PartiallyUpdateRequestDto;
 import com.songify.infrastructure.crud.song.controller.dto.request.SongCreateRequestDto;
@@ -43,7 +44,7 @@ import java.util.List;
     }
 
      static SongControllerDto mapFromSongDtoToSongControllerDto(SongDto song) {
-        return new SongControllerDto(song.id(), song.name());
+        return new SongControllerDto(song.id(), song.name(),new GenreDto(song.genre().id(),song.genre().name()));
     }
 
      static GetAllSongsResponseDto mapFromToGetAllSongsResponseDto(List<SongDto> songs) {

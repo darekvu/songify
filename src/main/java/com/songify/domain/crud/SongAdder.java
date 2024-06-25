@@ -1,5 +1,6 @@
 package com.songify.domain.crud;
 
+import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.SongDto;
 import com.songify.domain.crud.dto.SongLanguageDto;
 import com.songify.domain.crud.dto.SongRequestDto;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor(access = lombok.AccessLevel.PACKAGE)
 class SongAdder {
     private final SongRepository songRepository;
+    private final GenreAssigner genreAssigner;
 
     SongDto addSong(SongRequestDto songDto) {
         SongLanguageDto language = songDto.language();
@@ -21,6 +23,7 @@ class SongAdder {
         Song song = new Song(songDto.name(), songDto.releaseDate(), songDto.duration(), songLanguage);
         log.info("adding new song " + songDto);
         Song saveSong = songRepository.save(song);
-        return new SongDto(saveSong.getId(), saveSong.getName());
+        genreAssigner.assignDefaultGenreToSong(song.getId());
+        return new SongDto(saveSong.getId(), saveSong.getName(),new GenreDto(saveSong.getGenre().getId(),saveSong.getGenre().getName()));
     }
 }

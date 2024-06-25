@@ -2,6 +2,7 @@ package com.songify.domain.crud;
 
 import com.songify.domain.crud.dto.AlbumDto;
 import com.songify.domain.crud.dto.ArtistDto;
+import com.songify.domain.crud.dto.GenreDto;
 import com.songify.infrastructure.crud.artist.ArtistRequestDto;
 import com.songify.domain.crud.dto.ArtistWithAlbumAndSongsDto;
 import com.songify.domain.crud.dto.SongDto;
@@ -38,7 +39,7 @@ class ArtistAdder {
                 .flatMap(album -> album.getSongs().stream())
                 .collect(Collectors.toSet());
         Set<SongDto> songDtos = songs.stream()
-                .map(song -> new SongDto(song.getId(), song.getName()))
+                .map(song -> new SongDto(song.getId(), song.getName(),new GenreDto(song.getGenre().getId(),song.getGenre().getName())))
                 .collect(Collectors.toSet());
         return new ArtistWithAlbumAndSongsDto(savedArtist.getId(), savedArtist.getName(), albums, songDtos);
     }

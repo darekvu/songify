@@ -3,10 +3,7 @@ package feature;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.songify.SongifyApplication;
-import com.songify.infrastructure.crud.song.controller.dto.response.GetAllSongsResponseDto;
-import com.songify.infrastructure.crud.song.controller.dto.response.SongControllerDto;
 import org.junit.jupiter.api.Test;
-import org.springdoc.webmvc.core.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,20 +12,16 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.util.List;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.empty;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class HappyPathIntegrationTest {
 
     @Container
-    static final PostgreSQLContainer<?> postgreSQLContainer= new PostgreSQLContainer<>(DockerImageName.parse("postgres:15-alpine"))
+    static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15-alpine"))
             .withDatabaseName("testing");
     @Autowired
     private MockMvc mockMvc;
@@ -49,8 +42,8 @@ class HappyPathIntegrationTest {
 
 
     @DynamicPropertySource
-    public static void propertyOverride(DynamicPropertyRegistry registry){
-        registry.add("spring.datasource.url",postgreSQLContainer::getJdbcUrl);
+    public static void propertyOverride(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
     }
 
     @Test
@@ -62,16 +55,50 @@ class HappyPathIntegrationTest {
     @Test
     void f() throws Exception {
 //        when go to /songs then there no songs returned
-        ResultActions perform = mockMvc.perform(get("/songs")
-                .contentType(MediaType.APPLICATION_JSON));
-        MvcResult getSongsActionResult = perform.andExpect(status().isOk()).andReturn();
-        String contentAsString = getSongsActionResult.getResponse().getContentAsString();
-        GetAllSongsResponseDto allSongsResponseDto = objectMapper.readValue(contentAsString, GetAllSongsResponseDto.class);
-        List<SongControllerDto> songs = allSongsResponseDto.songs();
-        assertThat(songs.isEmpty());
-//         mockMvc.perform(get("/songs")
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.songs",empty()));
+
+        mockMvc.perform(get("/songs")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.songs", empty()));
+
+        mockMvc.perform(post("/songs").content(
+                        """
+                                         {
+                                         "name": "Till I collapse",
+                                         "releaseDate": "2024-05-27T13:57:36.643Z",
+                                         "duration": 20,
+                                         "language": "ENGLISH" 
+                                         }
+                                """.trim()
+                ).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.song.id", is(1)))
+                .andExpect(jsonPath("$.song.name", is("Till I collapse")))
+                .andExpect(jsonPath("$.song.genre.id", is(1)))
+                .andExpect(jsonPath("$.song.genre.name", is("default")));
+
+//         When I post to /songs "Nobody" then Song "Nobody" is return with id 2
+        mockMvc.perform(post("/songs").content("""
+                        {
+                          "name": "Nobody",
+                          "releaseDate": "2024-04-12T13:57:36.643Z",
+                          "duration": 20,
+                          "language": "ENGLISH"
+                        }
+                        """.trim()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.song.id", is(2)))
+                .andExpect(jsonPath("$.song.name", is("Nobody")))
+                .andExpect(jsonPath("$.song.genre.id", is(1)))
+                .andExpect(jsonPath("$.song.genre.name", is("default")));
+
+//            When I go to /genre then i Can see only default genre with id 1
+        mockMvc.perform(get("/genre")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                ).andExpect(status().isOk())
+                .andExpect(jsonPath("$.genres[0].id",is(1)))
+                .andExpect(jsonPath("$.genres[0].name",is("default")));
+
+
     }
 }

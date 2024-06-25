@@ -2,6 +2,7 @@ package com.songify.domain.crud;
 
 import com.songify.domain.crud.dto.AlbumInfoDto;
 import com.songify.domain.crud.dto.ArtistDto;
+import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.SongDto;
 
 import java.util.Collection;
@@ -39,7 +40,7 @@ import java.util.stream.Collectors;
                 .collect(Collectors.toSet());
         Set<SongDto> songsDto = album.getSongs()
                 .stream()
-                .map(song -> new SongDto(song.getId(), song.getName()))
+                .map(song -> new SongDto(song.getId(), song.getName(),new GenreDto(song.getGenre().getId(),song.getGenre().getName())))
                 .collect(Collectors.toSet());
 
         return Optional.of(new AlbumInfoDto(album.getId(), artistsDto, songsDto));

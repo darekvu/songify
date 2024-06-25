@@ -54,7 +54,7 @@ class HappyPathIntegrationTest {
 
     @Test
     void f() throws Exception {
-//        when go to /songs then there no songs returned
+//       1 when go to /songs then there no songs returned
 
         mockMvc.perform(get("/songs")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -77,7 +77,7 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.song.genre.id", is(1)))
                 .andExpect(jsonPath("$.song.genre.name", is("default")));
 
-//         When I post to /songs "Nobody" then Song "Nobody" is return with id 2
+//       2  When I post to /songs "Nobody" then Song "Nobody" is return with id 2
         mockMvc.perform(post("/songs").content("""
                         {
                           "name": "Nobody",
@@ -92,13 +92,29 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.song.genre.id", is(1)))
                 .andExpect(jsonPath("$.song.genre.name", is("default")));
 
-//            When I go to /genre then i Can see only default genre with id 1
+//      3     When I go to /genre then i Can see only default genre with id 1
         mockMvc.perform(get("/genre")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.genres[0].id",is(1)))
                 .andExpect(jsonPath("$.genres[0].name",is("default")));
 
+
+// 4       when I post to /genres with Genre "Rap" then "RAP" is return with id 2;
+            mockMvc.perform(post("/genre").content("""
+                    {
+                        "name":"Rap"
+                    }
+                    """.trim()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.id",is(2)))
+                    .andExpect(jsonPath("$.name",is("Rap")));
+
+//          5.   When I go to /songs/1 then i can see song and  default genre with id 1 and name default
+            mockMvc.perform(get("/songs/1").contentType(MediaType.APPLICATION_JSON_VALUE))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.song.genre.id",is(1)))
+                    .andExpect(jsonPath("$.song.genre.name",is("default")));
 
     }
 }

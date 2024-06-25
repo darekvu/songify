@@ -16,7 +16,9 @@ class GenreRetriever {
     private final GenreRepository genreRepository;
 
     Genre findGenreById(Long id){
-        return genreRepository.findGenreById(id).orElseThrow(()->new GenreNotFoundException("genre with id %s not found".formatted(id)));
+        return genreRepository
+                .findById(id)
+                .orElseThrow(()->new GenreNotFoundException("genre with id %s not found".formatted(id)));
     }
 
     Set<GenreDto> findAll(Pageable pageable) {

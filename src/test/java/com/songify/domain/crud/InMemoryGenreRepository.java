@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 class InMemoryGenreRepository implements GenreRepository {
     Map<Long, Genre> db = new HashMap<>();
-    AtomicLong index = new AtomicLong(0);
+    AtomicLong index = new AtomicLong(1);
     public InMemoryGenreRepository(){
         save(new Genre(1L,"default"));
     }
@@ -29,7 +29,7 @@ class InMemoryGenreRepository implements GenreRepository {
     }
 
     @Override
-    public Optional<Genre> findGenreById(Long id) {
+    public Optional<Genre> findById(Long id) {
         Genre genre = db.get(id);
         return Optional.ofNullable(genre);
     }

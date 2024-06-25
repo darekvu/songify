@@ -60,7 +60,7 @@ class HappyPathIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.songs", empty()));
-
+//        2
         mockMvc.perform(post("/songs").content(
                         """
                                          {
@@ -77,7 +77,7 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.song.genre.id", is(1)))
                 .andExpect(jsonPath("$.song.genre.name", is("default")));
 
-//       2  When I post to /songs "Nobody" then Song "Nobody" is return with id 2
+//       3  When I post to /songs "Nobody" then Song "Nobody" is return with id 2
         mockMvc.perform(post("/songs").content("""
                         {
                           "name": "Nobody",
@@ -92,7 +92,7 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.song.genre.id", is(1)))
                 .andExpect(jsonPath("$.song.genre.name", is("default")));
 
-//      3     When I go to /genre then i Can see only default genre with id 1
+//      4     When I go to /genre then i Can see only default genre with id 1
         mockMvc.perform(get("/genre")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                 ).andExpect(status().isOk())
@@ -100,7 +100,7 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.genres[0].name",is("default")));
 
 
-// 4       when I post to /genres with Genre "Rap" then "RAP" is return with id 2;
+// 5       when I post to /genres with Genre "Rap" then "RAP" is return with id 2;
             mockMvc.perform(post("/genre").content("""
                     {
                         "name":"Rap"
@@ -110,7 +110,7 @@ class HappyPathIntegrationTest {
                     .andExpect(jsonPath("$.id",is(2)))
                     .andExpect(jsonPath("$.name",is("Rap")));
 
-//          5.   When I go to /songs/1 then i can see song and  default genre with id 1 and name default
+//          6.   When I go to /songs/1 then i can see song and  default genre with id 1 and name default
             mockMvc.perform(get("/songs/1").contentType(MediaType.APPLICATION_JSON_VALUE))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.song.genre.id",is(1)))

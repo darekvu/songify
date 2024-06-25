@@ -68,6 +68,7 @@ import java.util.List;
         SongControllerDto songControllerDto = SongControllerDto.builder()
                 .id(song.id())
                 .name(song.name())
+                .genre(new GenreDto(song.genre().id(),song.genre().name()))
                 .build();
         return new GetSongResponseDto(songControllerDto);
     }

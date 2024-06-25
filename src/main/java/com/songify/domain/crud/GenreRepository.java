@@ -14,7 +14,7 @@ interface GenreRepository extends Repository<Genre, Long> {
     @Query("DELETE FROM Genre g WHERE g.id = :id")
     void deleteGenreById(Long id);
 
-    Optional<Genre> findGenreById(Long id);
+    Optional<Genre> findById(Long id);
 
     Set<Genre> findAll();
 }

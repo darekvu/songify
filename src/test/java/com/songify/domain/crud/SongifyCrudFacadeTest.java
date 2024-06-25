@@ -189,6 +189,25 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    void should_find_song_by_id() {
+        //given
+        SongRequestDto songRequestDto = SongRequestDto.builder()
+                .name("song1")
+                .language(SongLanguageDto.ENGLISH)
+                .build();
+        SongDto addedSong = songifyCrudFacade.addSong(songRequestDto);
+        SongDto songDtoById = songifyCrudFacade.findSongDtoById(addedSong.id());
+        //when
+        assertThat(songDtoById.genre().id()).isEqualTo(1);
+        assertThat(songDtoById.genre().name()).isEqualTo("default");
+        assertThat(songDtoById.id()).isEqualTo(0);
+        assertThat(songDtoById.name()).isEqualTo("song1");
+
+
+        //then
+    }
+
+    @Test
     void should_add_artist_to_album() {
         //given
         ArtistRequestDto artistRequestDto = ArtistRequestDto.builder()
